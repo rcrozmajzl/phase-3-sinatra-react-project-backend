@@ -3,6 +3,7 @@ class ApplicationController < Sinatra::Base
   
   # Add your routes here
   
+  #READ
   get '/tasks' do
     tasks = Task.all
     tasks.to_json
@@ -18,6 +19,25 @@ class ApplicationController < Sinatra::Base
     alterego_tasks.to_json
   end
 
+  #CREATE
+  post '/tasks' do
+    new_task = Task.create(name:params[name], list_id:params[:list_id], complete:params[:complete])
+  end
+  
+  #UPDATE
+  patch '/tasks/:id' do
+    task = Task.find(params[:id])
+    task.update(
+      complete: params[:complete]
+    )
+    task.to_json
+  end
 
+  #DELETE
+  delete '/tasks/:id' do
+    task = Task.find(params[:id])
+    task.destroy
+    task.to_json
+  end
 
 end
